@@ -19,6 +19,11 @@ Template.solutions.events({
         template.find("#name").value=editSolution.name;
         template.find("#description").value=editSolution.description;
     },
+    "click .solution-delete": function(e){
+        id = $(e.target).attr('data-solutionid');
+        solutions.remove({'_id':id});
+        e.preventDefault();
+    },
 });
 
 //return all records
