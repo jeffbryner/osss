@@ -2,3 +2,35 @@ body {
   padding: 10px;
   font-family: sans-serif;
 }
+
+/* set the description colum to wrap text */
+#solutions tr td:nth-child(3){
+    width:50%;
+}
+
+input {
+    overflow-wrap: break-word;
+}
+
+.tagform{
+    float:right;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 95%;
+    background: #999;
+    color: #fff;
+}
+
+.tag{
+    cursor: pointer;
+    text-align: left;
+}
+
+li {
+    cursor: pointer;
+    color: #000;
+}
+
+.label{
+    cursor: pointer;
+}
