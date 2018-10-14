@@ -56,12 +56,12 @@ Template.solutions.helpers({
                             });
     }
 });
-Template.solution_form.onCreated(function (e,template) {
+Template.solution_form.onRendered(function (e,template) {
     // Use this.subscribe inside onCreated callback
     console.log('solution form created');
     this.autorun(() => {
-        this.subscribe('solutions');
-        //this.subscribe('solution',Session.get('solutionID'));
+        //this.subscribe('solutions');
+        this.subscribe('solution',Session.get('solutionID'));
     });
 });
 
