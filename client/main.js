@@ -4,16 +4,24 @@ import { ReactiveVar } from 'meteor/reactive-var';
 import '/imports/collections.js';
 import './main.html';
 import './tags.html';
+import './pivot.html';
+import './pivot.js';
 
 Router.route('/', function () {
     this.render('osss');
-  });
+});
 
 Router.route('/solutions/:_id', function () {
+    // grab the data for the form
     var solution = solutions.findOne({_id: this.params._id});
-    console.log(solution);
     this.render('solution_form', {data: solution});
 });
+
+Router.route('/pivot', function () {
+    console.log('router pivot');
+    this.render('pivot');
+});
+
 
 UI.registerHelper('stringify',function(obj) {
     //given a json objects, simply stringify it
@@ -56,15 +64,6 @@ Template.solutions.helpers({
                             });
     }
 });
-Template.solution_form.onRendered(function (e,template) {
-    // Use this.subscribe inside onCreated callback
-    console.log('solution form created');
-    this.autorun(() => {
-        //this.subscribe('solutions');
-        this.subscribe('solution',Session.get('solutionID'));
-    });
-});
-
 
 Template.solution_form.events({
     // input isn't enough since toolbar changes don't trigger
@@ -74,24 +73,12 @@ Template.solution_form.events({
         this_solution=models.solution();
         this_solution.name=template.find("#name").value;
         this_solution.description=template.find("#description").value;
-        //this_solution.tags=template.data.tags;
-        this_solution.tags=_.without(_.pluck(template.find('.tag').childNodes,'nodeValue'),null)
-        //console.log('setting to:', this_solution);
+        var tags = _.pluck($('.form-control .tag'),'childNodes')
+        tags.forEach(function(t){
+            this_solution.tags.push(t[0].data);
+        });
         solutions.update({ _id: template.data._id}, {$set: this_solution });
     } , 500),
-    "submit form": function(event, template) {
-        event.preventDefault();
-        this_solution=models.solution();
-
-        this_solution.name=template.find("#name").value;
-        this_solution.description=template.find("#description").value;
-        if ( _.isEmpty(template.find("#_id").value) ){
-            solutions.insert(this_solution);
-        }else{
-            solutions.update({ _id: template.find("#_id").value}, this_solution )
-        }
-        $('#modal_solution_form').modal('hide')
-    },
     "dragover .tags": function(e){
         e.preventDefault();   //allow the drag
     },
