@@ -10,6 +10,7 @@ Meteor.startup(() => {
             return {
                 name:"",
                 description: "",
+                url:"",
                 tags:[]
             };
         }
