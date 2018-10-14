@@ -19,11 +19,11 @@ Meteor.startup(() => {
     if (Meteor.isServer) {
 
         //Publish collections
-        Meteor.publish('solutions', function allSollutions(){
+        Meteor.publish('solutions', function(){
             return solutions.find();
         });
-        Meteor.publish('solution',function aSolution(id){
-            return solutions.findOne({_id:id});
+        Meteor.publish('solution',function(id){
+            return solutions.find({_id:id});
         })
 
         Meteor.publish('tags', function(){
