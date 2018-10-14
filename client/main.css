@@ -5,7 +5,12 @@ body {
 
 /* set the description colum to wrap text */
 #solutions tr td:nth-child(3){
-    width:50%;
+    width:60%;
+    overflow-wrap: break-word;
+}
+#solutions tr td:nth-child(4){
+    width:40%;
+    overflow-wrap: break-word;
 }
 
 input {

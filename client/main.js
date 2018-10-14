@@ -15,6 +15,11 @@ Router.route('/solutions/:_id', function () {
     this.render('solution_form', {data: solution});
 });
 
+UI.registerHelper('stringify',function(obj) {
+    //given a json objects, simply stringify it
+    return JSON.stringify(obj,null,2)
+ });
+
 Template.solutions.onCreated(function(){
     this.autorun(() => {
         this.subscribe('solutions');
