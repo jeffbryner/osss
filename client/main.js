@@ -19,7 +19,14 @@ Router.route('/solutions/:_id', function () {
 
 Router.route('/pivot', function () {
     console.log('router pivot');
-    this.render('pivot');
+    this.subscribe('solutions').wait();
+
+    if (this.ready()) {
+        var sdata=solutions.find({});
+        this.render('pivotTable',{data: sdata});
+    } else {
+        this.render('loading');
+    }
 });
 
 
