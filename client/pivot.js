@@ -20,39 +20,22 @@ Template.pivotTable.created = function (){
     console.log('pivot template created');
 }
 Template.pivotTable.rendered = function () {
-    this.tableData={};
-    Tracker.autorun(() => {
-        Meteor.subscribe("solutions",
-                onReady=function(){
-                    console.log(solutions.find().count());
-                    this.tableData=solutions.find({},
-                        {fields:{
-                            name:1,
-                            tags:1}
-                        }).fetch();
-                        console.log('pivot rendered');
-                        var container=document.getElementById('pivot-wrapper')
-                        container.style.cursor='wait';
-                        console.log(JSON.stringify(this.tableData));
-                        Meteor.apply('aggregateTags',
-                        [],
-                        onResultReceived = function(err,result){
-                            console.log(result);
-                            this.tableData= result;
-                            $("#pivot-wrapper").pivotUI(
-                                this.tableData,
-                                {
-                                    cols: ["tags"],
-                                    rows: ["name"],
-                                    menuLimit: 500
-                                });
-                        });
+    console.log('pivot rendered');
+    var container=document.getElementById('pivot-wrapper')
+    container.style.cursor='wait';
 
-
-
-                        container.style.cursor='auto';
-                    });
+    Meteor.apply('aggregateTags',
+        [],
+        onResultReceived = function(err,result){
+            console.log(result);
+            this.tableData= result;
+            $("#pivot-wrapper").pivotUI(
+                this.tableData,
+                {
+                    cols: ["tags"],
+                    rows: ["name"],
+                    menuLimit: 500
+                });
     });
-
-
+    container.style.cursor='auto';
 }
