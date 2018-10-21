@@ -16,22 +16,43 @@ import pivotUI from 'pivottable';
 import 'pivottable/dist/pivot.css';
 import './pivot.html';
 
-Template.pivot.onRendered = function () {
-    console.log('pivot rendered');
-    var container=document.getElementById('pivot-wrapper')
-    container.style.cursor='wait';
-    tableData={};
-    tableData=solutions.find({},
+Template.pivotTable.created = function (){
+    console.log('pivot template created');
+}
+Template.pivotTable.rendered = function () {
+    this.tableData={};
+    Tracker.autorun(() => {
+        Meteor.subscribe("solutions",
+                onReady=function(){
+                    console.log(solutions.find().count());
+                    this.tableData=solutions.find({},
                         {fields:{
                             name:1,
                             tags:1}
+                        }).fetch();
+                        console.log('pivot rendered');
+                        var container=document.getElementById('pivot-wrapper')
+                        container.style.cursor='wait';
+                        console.log(JSON.stringify(this.tableData));
+                        Meteor.apply('aggregateTags',
+                        [],
+                        onResultReceived = function(err,result){
+                            console.log(result);
+                            this.tableData= result;
+                            $("#pivot-wrapper").pivotUI(
+                                this.tableData,
+                                {
+                                    cols: ["tags"],
+                                    rows: ["name"],
+                                    menuLimit: 500
+                                });
                         });
-    console.log(tableData);
-    $("#pivot-wrapper").pivotUI(
-        tableData,
-        {
-            cols: ["name"],
-            rows: ["tags"],
-            menuLimit: 500
-        });
+
+
+
+                        container.style.cursor='auto';
+                    });
+    });
+
+
 }
