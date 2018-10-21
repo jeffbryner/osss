@@ -16,18 +16,14 @@ import pivotUI from 'pivottable';
 import 'pivottable/dist/pivot.css';
 import './pivot.html';
 
-Template.pivotTable.created = function (){
-    console.log('pivot template created');
-}
 Template.pivotTable.rendered = function () {
-    console.log('pivot rendered');
     var container=document.getElementById('pivot-wrapper')
     container.style.cursor='wait';
 
     Meteor.apply('aggregateTags',
         [],
         onResultReceived = function(err,result){
-            console.log(result);
+            // console.log(result);
             this.tableData= result;
             $("#pivot-wrapper").pivotUI(
                 this.tableData,
