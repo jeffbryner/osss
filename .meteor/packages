@@ -25,3 +25,4 @@ templating
 iron:router
 meteor
 twbs:bootstrap
+sakulstra:aggregate
