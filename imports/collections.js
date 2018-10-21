@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo';
 //collections shared by client/server
 Meteor.startup(() => {
-    solutions = new Meteor.Collection("solutions");
-    tags = new Meteor.Collection("tags");
+    solutions = new Mongo.Collection("solutions");
+    tags = new Mongo.Collection("tags");
 
     models={
         solution: function() {
