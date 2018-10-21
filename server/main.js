@@ -24,12 +24,9 @@ Meteor.methods({
 });
 
 function aggregateTags() {
-    console.log("aggregating");
+    // aggregate the solutions table returning tags and solution name
+    // for use in the pivot UI
     var pipeline = [
-      {$group: {_id: null, resTime: {$sum: "$resTime"}}}
-    ];
-    var pipeline = [
-
         {"$match":{"tags":{"$exists":true}}},
         {"$unwind": "$tags"},
         {"$project": {"name": 1,
@@ -38,6 +35,5 @@ function aggregateTags() {
                         }}
         ]
     var result = solutions.aggregate(pipeline);
-    //console.log("Explain Report:", JSON.stringify(result[0]), null, 2);
     return result;
 }
