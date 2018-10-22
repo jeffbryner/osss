@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/meteor';
 import '/imports/collections.js';
 import { aggregate } from 'meteor/sakulstra:aggregate';
+import 'meteor/bruz:github-api';
 
 
 Meteor.startup(() => {
