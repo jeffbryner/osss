@@ -3,15 +3,8 @@
 </template>
 
 <template name="osss">
-    <head>
-        <title>osss</title>
-    </head>
-
-    <body>
-        <h1>Open Source Security Solutions</h1>
-    </body>
+    <h1>Open Source Security Solutions</h1>
     {{>solutions}}
-
 </template>
 
 <!--a striped table of our solutions-->
@@ -19,10 +12,9 @@
     <div class=" container">
         <div class="fluid center">
             <table id="solutions" class="table table-striped table-hover table-condensed">
-                <caption><p class="lead">Solutions</p></caption>
                 <thead>
                     <tr>
-                        <td><button class="btn btn-xs btn-default solution-add">add</button></td>
+                        <td><button class="btn btn-primary btn-default solution-add">add</button></td>
                         <td>Name</td>
                         <td>Description</td>
                         <td>Tags</td>
@@ -41,11 +33,11 @@
 
 <template name="each_solution">
     <tr class="tooltip-wrapper info-row" data-toggle="tooltip">
-        <td><button class="btn btn-xs btn-default solution-edit" data-solutionid={{_id}}>edit</button></td>
+        <td><button class="btn btn-outline-secondary solution-edit" data-solutionid={{_id}}>edit</button></td>
         <td>{{{name}}}</td>
         <td>{{description}}</td>
         <td>{{stringify tags}}</td>
-        <td><button class="btn btn-xs btn-danger solution-delete" data-solutionid={{_id}}>delete</button></td>
+        <td><button class="btn btn-xs btn-outline-danger solution-delete" data-solutionid={{_id}}>delete</button></td>
     </tr>
 </template>
 

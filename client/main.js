@@ -2,10 +2,16 @@ import { Blaze } from 'meteor/blaze';
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import '/imports/collections.js';
+import 'meteor/alexwine:bootstrap-4';
+import './layout.html';
 import './main.html';
 import './tags.html';
 import './pivot.html';
 import './pivot.js';
+
+Router.configure({
+    layoutTemplate: 'layout'
+});
 
 Router.route('/', function () {
     this.render('osss');
