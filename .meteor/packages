@@ -26,3 +26,5 @@ iron:router
 meteor
 twbs:bootstrap
 sakulstra:aggregate
+bruz:github-api
+alexwine:bootstrap-4
