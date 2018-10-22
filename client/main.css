@@ -1,6 +1,6 @@
-body {
-  font-size: 1.5rem;
-}
+html {
+    font-size: 16px;
+  }
 
 /* set the description colum to wrap text */
 #solutions tr td:nth-child(3){
@@ -16,12 +16,21 @@ input {
     overflow-wrap: break-word;
 }
 
-.tagform{
+.div-right{
     float:right;
+    width:250px;
+    position: absolute;
+    left: 75vw;
+    top: 30vh;
+}
+
+.tagform{
+    float:left;
+    width: 200px;
     padding-left: 20px;
     padding-right: 20px;
     font-size: 95%;
-    background: #999;
+    background: lightgray;
     color: #fff;
 }
 
