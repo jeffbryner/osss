@@ -2,8 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/meteor';
 import '/imports/collections.js';
 import { aggregate } from 'meteor/sakulstra:aggregate';
-import 'meteor/bruz:github-api';
-
+import { URL } from 'url';
+const github = require('@octokit/rest')()
 
 Meteor.startup(() => {
     // code to run on server at startup
@@ -21,7 +21,8 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-    'aggregateTags': aggregateTags
+    'aggregateTags': aggregateTags,
+    'getgithubstats': getGithubStats
 });
 
 function aggregateTags() {
@@ -37,4 +38,45 @@ function aggregateTags() {
         ]
     var result = solutions.aggregate(pipeline);
     return result;
+}
+
+function getGithubStats(id){
+    asolution=solutions.findOne({_id:id});
+    //try {
+        aurl = new URL(asolution.url);
+        if ( aurl.hostname == 'github.com' ){
+            console.log('creating github api object for ' + aurl.pathname);
+            gituser=aurl.pathname.split('/')[1];
+            gitrepo=aurl.pathname.split('/')[2];
+            console.log(gituser,gitrepo);
+            const octokit = require('@octokit/rest')()
+
+            // commit stats
+            octokit.repos.getStatsCommitActivity ({
+                owner: gituser,
+                user: gituser,
+                repo: gitrepo
+            }).then(({ data, headers, status }) => {
+                console.log(JSON.stringify(data));
+            });
+
+            // releases
+            octokit.repos.getReleases ({
+                owner: gituser,
+                user: gituser,
+                repo: gitrepo
+            }).then(({ data, headers, status }) => {
+                console.log(JSON.stringify(data.length));
+            });
+
+            // issues
+
+
+        }
+    // } catch (err) {
+    //     console.log('get GitHub stats errored: ') + JSON.stringify(err);
+    // }
+
+
+
 }

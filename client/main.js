@@ -77,11 +77,13 @@ Template.solution_form.events({
         this_solution=models.solution();
         this_solution.name=template.find("#name").value;
         this_solution.description=template.find("#description").value;
+        this_solution.url=template.find("#url").value;
         var tags = _.pluck($('.form-control .tag'),'childNodes')
         tags.forEach(function(t){
             this_solution.tags.push(t[0].data);
         });
         solutions.update({ _id: template.data._id}, {$set: this_solution });
+        Meteor.apply('getgithubstats',[Session.get('solutionID')]);
     } , 500),
     "dragover .tags": function(e){
         e.preventDefault();   //allow the drag
