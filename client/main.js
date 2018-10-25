@@ -29,8 +29,22 @@ Router.route('/pivot', function () {
 
 UI.registerHelper('stringify',function(obj) {
     //given a json objects, simply stringify it
-    return JSON.stringify(obj,null,2)
+    return JSON.stringify(obj,null,2);
  });
+
+UI.registerHelper('healthColor',function(obj){
+    //given a health rating, return a css color
+    if (obj=='unknown'){
+        return 'bg-light';
+    }
+    if (obj=='green'){
+        return 'bg-success';
+    }
+    if (obj=='red'){
+        return 'bg-danger'
+    }
+
+});
 
 Template.solutions.onCreated(function(){
     this.autorun(() => {

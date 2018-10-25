@@ -33,6 +33,7 @@ function aggregateTags() {
         {"$unwind": "$tags"},
         {"$project": {"name": 1,
                         "tags": 1,
+                        "health":1,
                         "_id": 0
                         }}
         ]
@@ -42,41 +43,37 @@ function aggregateTags() {
 
 function getGithubStats(id){
     asolution=solutions.findOne({_id:id});
-    //try {
-        aurl = new URL(asolution.url);
-        if ( aurl.hostname == 'github.com' ){
-            console.log('creating github api object for ' + aurl.pathname);
-            gituser=aurl.pathname.split('/')[1];
-            gitrepo=aurl.pathname.split('/')[2];
-            console.log(gituser,gitrepo);
-            const octokit = require('@octokit/rest')()
+    try {
+        if ( asolution.url ){
+            aurl = new URL(asolution.url);
+            if ( aurl.hostname == 'github.com' ){
+                //console.log('creating github api object for ' + aurl.pathname);
+                gituser=aurl.pathname.split('/')[1];
+                gitrepo=aurl.pathname.split('/')[2];
+                //console.log(gituser,gitrepo);
+                const octokit = require('@octokit/rest')()
 
-            // commit stats
-            octokit.repos.getStatsCommitActivity ({
-                owner: gituser,
-                user: gituser,
-                repo: gitrepo
-            }).then(({ data, headers, status }) => {
-                console.log(JSON.stringify(data));
-            });
-
-            // releases
-            octokit.repos.getReleases ({
-                owner: gituser,
-                user: gituser,
-                repo: gitrepo
-            }).then(({ data, headers, status }) => {
-                console.log(JSON.stringify(data.length));
-            });
-
-            // issues
-
-
+                // releases
+                // POC code to rate a project
+                // healthy if it has an arbitrary min number of releases
+                octokit.repos.getReleases ({
+                    owner: gituser,
+                    user: gituser,
+                    repo: gitrepo
+                }).then(({ data, headers, status }) => {
+                    //console.log(id);
+                    //console.log(JSON.stringify(data.length));
+                    releases=data.length;
+                    if (releases >= 5){
+                        solutions.update({_id:id}, {$set:{health:'green'}});
+                    }
+                    if (releases <5){
+                        solutions.update({_id:id}, {$set:{health:'red'}});
+                    }
+                });
+            }
         }
-    // } catch (err) {
-    //     console.log('get GitHub stats errored: ') + JSON.stringify(err);
-    // }
-
-
-
+    } catch (err) {
+         console.log('get GitHub stats errored: ') + JSON.stringify(err);
+    }
 }

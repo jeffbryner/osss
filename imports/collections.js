@@ -11,7 +11,8 @@ Meteor.startup(() => {
                 name:"",
                 description: "",
                 url:"",
-                tags:[]
+                tags:[],
+                health:"unknown"
             };
         }
     }
