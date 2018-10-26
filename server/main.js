@@ -43,7 +43,7 @@ function aggregateTags() {
 
 function getGithubStats(id){
     asolution=solutions.findOne({_id:id});
-    try {
+    //try {
         if ( asolution.url ){
             aurl = new URL(asolution.url);
             if ( aurl.hostname == 'github.com' ){
@@ -73,7 +73,7 @@ function getGithubStats(id){
                 });
             }
         }
-    } catch (err) {
-         console.log('get GitHub stats errored: ') + JSON.stringify(err);
-    }
+    //} catch (err) {
+    //     console.log('get GitHub stats errored: ') + JSON.stringify(err);
+   // }
 }
