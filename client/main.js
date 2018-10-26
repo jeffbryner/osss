@@ -58,6 +58,7 @@ Template.solutions.events({
         Session.set('solutionID',null);
         newSolution=models.solution();
         new_id=solutions.insert(newSolution);
+        Session.set('solutionID',new_id);
         //route to it for editing
         Router.go('/solutions/' + Session.get('solutionID'));
 
@@ -97,8 +98,10 @@ Template.solution_form.events({
             this_solution.tags.push(t[0].data);
         });
         solutions.update({ _id: template.data._id}, {$set: this_solution });
-        Meteor.apply('getgithubstats',[Session.get('solutionID')]);
     } , 500),
+    "blur #url": _.debounce(function(e,t){
+        Meteor.apply('getgithubstats',[Session.get('solutionID')]);
+        } , 1500),
     "dragover .tags": function(e){
         e.preventDefault();   //allow the drag
     },
