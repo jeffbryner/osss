@@ -90,6 +90,8 @@ Template.solution_form.events({
         //console.log('editor debounce input', template);
         //window.tmpl=template;
         this_solution=models.solution();
+        // we don't rate the health
+        delete this_solution.health;
         this_solution.name=template.find("#name").value;
         this_solution.description=template.find("#description").value;
         this_solution.url=template.find("#url").value;
