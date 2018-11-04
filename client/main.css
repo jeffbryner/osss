@@ -1,4 +1,49 @@
-body {
-  padding: 10px;
-  font-family: sans-serif;
+html {
+    font-size: 16px;
+  }
+
+/* set the description colum to wrap text */
+#solutions tr td:nth-child(3){
+    width:60%;
+    overflow-wrap: break-word;
+}
+#solutions tr td:nth-child(4){
+    width:40%;
+    overflow-wrap: break-word;
+}
+
+input {
+    overflow-wrap: break-word;
+}
+
+.div-right{
+    float:right;
+    width:250px;
+    position: absolute;
+    left: 75vw;
+    top: 30vh;
+}
+
+.tagform{
+    float:left;
+    width: 200px;
+    padding-left: 20px;
+    padding-right: 20px;
+    font-size: 95%;
+    background: lightgray;
+    color: #fff;
+}
+
+.tag{
+    cursor: pointer;
+    text-align: left;
+}
+
+li {
+    cursor: pointer;
+    color: #000;
+}
+
+.label{
+    cursor: pointer;
 }

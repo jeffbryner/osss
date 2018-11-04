@@ -1,0 +1,22 @@
+version: '2.2'
+services:
+  app:
+    image: 0x7eff/open-source-catalog-demo
+    ports:
+      - "80:3000"
+    links:
+      - mongo
+    restart: always
+    environment:
+      - ROOT_URL=http://localhost
+      - MONGO_URL=mongodb://mongo:27017/meteor
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    command: mongod --storageEngine=wiredTiger
+    volumes:
+      - mongodb:/data/db
+volumes:
+  mongodb:

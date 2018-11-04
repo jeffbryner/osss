@@ -1,0 +1,31 @@
+<!--
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+Copyright (c) 2014 Mozilla Corporation
+-->
+<template name="layout">
+    <html lang="en">
+        <head>
+            <!-- Required meta tags -->
+            <meta charset="utf-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+            <link rel="shortcut icon" type="image/svg" href="/images/favicon.ico"/>
+            <title>Open Source Security solutions</title>
+        </head>
+        <body>
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+                    <a class="navbar-brand ml-0 p-0" href="https://www.mozilla.org/">
+                        <img src="/images/moz-logo-bw-rgb.svg" width="120" height="30" class="p-0" alt="Mozilla.org">
+                    </a>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            <a class="nav-item nav-link  active" href="/">Home <span class="sr-only">(current)</span></a>
+                            <a class="nav-item nav-link " href="/pivot">Pivot</a>
+                        </div>
+                    </div>
+            </nav>
+            {{> yield}}
+        </body>
+    </html>
+</template>
