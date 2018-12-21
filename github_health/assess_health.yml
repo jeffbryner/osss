@@ -1,0 +1,4 @@
+---
+mongohost: "mongo"
+mongoport: 27017
+debug: True
