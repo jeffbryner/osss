@@ -2,3 +2,4 @@ node_modules/
 .vscode/typings/meteor.d.ts
 .DS_Store
 client/.DS_Store
+*.env
