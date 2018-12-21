@@ -18,5 +18,14 @@ services:
     command: mongod --storageEngine=wiredTiger
     volumes:
       - mongodb:/data/db
+  python:
+    image: python:3
+    command: bash -c "python -i"
+    stdin_open: true
+    tty: true
+    links:
+      - mongo
+    volumes:
+      - ./github_health:/opt/github_health
 volumes:
   mongodb:
