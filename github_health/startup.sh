@@ -3,7 +3,7 @@
 # fixup this python:3 docker image to run our cron
 apt-get update
 apt-get -y install cron rsyslog
-pip install -r requirements.txt
+pip install -r /opt/github_health/requirements.txt
 
 /etc/init.d/rsyslog start
 /etc/init.d/cron start
@@ -31,4 +31,6 @@ EOF
 # make it go
 /etc/init.d/rsyslog restart
 /etc/init.d/cron restart
+
+tail -f /var/log/syslog /var/log/messages
 
