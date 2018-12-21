@@ -31,9 +31,9 @@ class DotDict(dict):
     def __getstate__(self):
         return self.__dict__
 
-def summarizeReadMe(url):
+def summarizeRepo(url):
     '''
-    Given a github url, attempt to parse the readme into a name and summary for the repo
+    Given a github url, attempt to get the name and parse the readme into a summary for the repo
     '''
     urlbits=urlparse(url)
     summary = None
@@ -41,16 +41,17 @@ def summarizeReadMe(url):
     if urlbits.netloc.lower() == 'github.com':
         try:
             repo = g.get_repo(urlbits.path[1::])
+            name = repo.name
+            summary = repo.description + ' '
             readme=base64.b64decode(repo.get_readme().content)
             html=markdown.markdown(readme.decode('utf-8'))
             soup = BeautifulSoup(html)
             tags=[]
             for tag in soup.find_all(True):
                 tags.append(tag.name)
-            if 'h1' in tags:
-                name=soup.h1.string
+
             if 'h2' in tags:
-                summary=soup.h2.string + ' '
+                summary+=soup.h2.string + ' '
 
             for p in soup.find_all('p'):
                 if (p.string):
@@ -117,15 +118,16 @@ def main(config):
         score=scoreHealth(entry['url'])
         entry['health']=rateHealth(score)
         entry['last_health_check'] = datetime.utcnow().isoformat()
-        name, summary=summarizeReadMe(entry['url'])
+        name, summary=summarizeRepo(entry['url'])
         if name and len(name) > len(entry['name']):
             entry['name']= name
         if summary and len(summary) > len(entry['description']):
             entry['description']= summary
         solutions.replace_one({'_id': entry['_id']},entry)
 
-    # get old entries that need re-checking
-    # rank the health
+    # todo: get old entries that need re-checking
+        # rank the health
+    # todo: update the description if it's changed.
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
