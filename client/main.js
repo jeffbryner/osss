@@ -101,9 +101,7 @@ Template.solution_form.events({
         });
         solutions.update({ _id: template.data._id}, {$set: this_solution });
     } , 500),
-    "blur #url": _.debounce(function(e,t){
-        Meteor.apply('getgithubstats',[Session.get('solutionID')]);
-        } , 1500),
+
     "dragover .tags": function(e){
         e.preventDefault();   //allow the drag
     },
