@@ -18,5 +18,16 @@ services:
     command: mongod --storageEngine=wiredTiger
     volumes:
       - mongodb:/data/db
+  python:
+    image: python:3
+    command: bash /opt/github_health/startup.sh
+    stdin_open: true
+    tty: true
+    env_file:
+      - python.env
+    links:
+      - mongo
+    volumes:
+      - ./github_health:/opt/github_health
 volumes:
   mongodb:
