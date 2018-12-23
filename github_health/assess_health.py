@@ -130,7 +130,7 @@ def main(config):
     refresh_entries = solutions.find({'last_health_check': {"$lte": date_range.isoformat()}})
     for entry in refresh_entries:
         # rank the health
-        print(entry)
+
         score=scoreHealth(entry['url'])
         entry['health']=rateHealth(score)
         entry['last_health_check'] = datetime.utcnow().isoformat()
