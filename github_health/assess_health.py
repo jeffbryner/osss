@@ -110,7 +110,7 @@ def main(config):
     db=client.meteor
     solutions=db['solutions']
     # get new entries without health ratings
-    new_entries = solutions.find({"health":"unknown"})
+    new_entries = solutions.find({"$or":[{"health":"unknown"},{"health":"pending"}]})
     for entry in new_entries:
         # default
         entry['health']= 'unknown'
@@ -125,8 +125,17 @@ def main(config):
             entry['description']= summary
         solutions.replace_one({'_id': entry['_id']},entry)
 
-    # todo: get old entries that need re-checking
+    # get old entries that need re-checking
+    date_range=datetime.utcnow() - timedelta(days=1)
+    refresh_entries = solutions.find({'last_health_check': {"$lte": date_range.isoformat()}})
+    for entry in refresh_entries:
         # rank the health
+        print(entry)
+        score=scoreHealth(entry['url'])
+        entry['health']=rateHealth(score)
+        entry['last_health_check'] = datetime.utcnow().isoformat()
+        solutions.replace_one({'_id': entry['_id']},entry)
+
     # todo: update the description if it's changed.
 
 if __name__ == "__main__":
