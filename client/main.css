@@ -12,6 +12,10 @@ html {
     overflow-wrap: break-word;
 }
 
+.solution_form{
+    margin: 0px 30% 20px;
+}
+
 input {
     overflow-wrap: break-word;
 }
