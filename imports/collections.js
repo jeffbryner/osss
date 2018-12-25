@@ -12,7 +12,7 @@ Meteor.startup(() => {
                 description: "",
                 url:"",
                 tags:[],
-                health:"unknown"
+                health:"pending"
             };
         }
     }
