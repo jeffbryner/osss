@@ -136,6 +136,9 @@ def main(config):
         entry['last_health_check'] = datetime.utcnow().isoformat()
         solutions.replace_one({'_id': entry['_id']},entry)
 
+    # remove any junk entries (no url)
+    solutions.delete_many({"url":{'$in': [None, '']}})
+
     # todo: update the description if it's changed.
 
 if __name__ == "__main__":
