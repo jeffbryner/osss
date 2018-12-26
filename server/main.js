@@ -10,7 +10,8 @@ Meteor.startup(() => {
     //Modules.server.startup();
     BrowserPolicy.content.disallowInlineScripts();
     BrowserPolicy.content.disallowEval();
-    BrowserPolicy.content.disallowInlineStyles();
+    // pivot table uses inline styles
+    //BrowserPolicy.content.disallowInlineStyles();
     BrowserPolicy.framing.disallow();
     //update tags if missing:
     console.log("checking the tags");
