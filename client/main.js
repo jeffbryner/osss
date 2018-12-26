@@ -29,7 +29,7 @@ Router.route('/pivot', function () {
 
 UI.registerHelper('stringify',function(obj) {
     //given a json objects, simply stringify it
-    return JSON.stringify(obj,null,2);
+    return JSON.stringify(obj,null,2).replace("[","").replace("]","").replace(/["']/gi,'');
  });
 
 UI.registerHelper('healthColor',function(obj){
