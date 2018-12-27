@@ -40,6 +40,9 @@ UI.registerHelper('healthColor',function(obj){
     if (obj=='green'){
         return 'bg-success';
     }
+    if (obj=='yellow'){
+        return 'bg-warning';
+    }
     if (obj=='red'){
         return 'bg-danger'
     }
