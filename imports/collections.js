@@ -1,5 +1,7 @@
 import { Meteor } from 'meteor/meteor'
 import { Mongo } from 'meteor/mongo';
+import { publishPagination } from 'meteor/kurounin:pagination';
+
 //collections shared by client/server
 Meteor.startup(() => {
     solutions = new Mongo.Collection("solutions");
@@ -18,11 +20,15 @@ Meteor.startup(() => {
     }
 
     if (Meteor.isServer) {
+        solutions.rawCollection().dropIndexes();
+        solutions.rawCollection().createIndex({
+            name: "text",
+            description: "text",
+            tags: "text"
+        });
 
         //Publish collections
-        Meteor.publish('solutions', function(){
-            return solutions.find();
-        });
+        publishPagination(solutions);
         Meteor.publish('solution',function(id){
             return solutions.find({_id:id});
         })
@@ -49,7 +55,7 @@ Meteor.startup(() => {
 
     if (Meteor.isClient) {
         //client-side subscriptions to low volume collections
-        Meteor.subscribe("solutions");
+        //Meteor.subscribe("solutions");
         Meteor.subscribe("tags");
     };
 

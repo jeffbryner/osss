@@ -14,7 +14,7 @@ Router.configure({
 });
 
 Router.route('/', function () {
-    this.render('osss');
+    this.render('solutions');
 });
 
 Router.route('/solutions/:_id', function () {
@@ -50,10 +50,26 @@ UI.registerHelper('healthColor',function(obj){
 });
 
 Template.solutions.onCreated(function(){
-    this.autorun(() => {
-        this.subscribe('solutions');
+    this.pagination = new Meteor.Pagination(solutions, {
+        sort: {
+            name: 1
+        },
+        perPage: 5,
+
+    });
+    Template.instance().searchQuery = new ReactiveVar();
+    Tracker.autorun(() => {
+            const filter_Text = this.searchQuery.get();
+
+            if (filter_Text && filter_Text.length >0){
+                this.pagination.filters({$text:{$search:filter_Text}});
+            } else {
+                this.pagination.filters({});
+            }
+
     });
 });
+
 
 Template.solutions.events({
     "click .solution-add": function(event,template){
@@ -71,20 +87,47 @@ Template.solutions.events({
         Router.go('/solutions/' + Session.get('solutionID'));
 
     },
-    "click .solution-delete": function(e){
+    "click .solution-delete": function(e,template){
         id = $(e.target).attr('data-solutionid');
         solutions.remove({'_id':id});
         e.preventDefault();
     },
+    'keyup [name="search"]' ( event, template ) {
+        let value = event.target.value.trim();
+
+        if ( value !== '' && event.keyCode === 13 ) {
+          template.searchQuery.set( value );
+        }
+
+        if ( value === '' || event.keyCode == 27 ) {
+          template.searchQuery.set( '' );
+          event.target.value='';
+        }
+      }
 });
 
 //return all records
 Template.solutions.helpers({
-    solutions: function () {
-        return solutions.find({},{
-                                sort: {name: 1}
-                            });
+    isReady: function () {
+        return Template.instance().pagination.ready();
+    },
+    templatePagination: function () {
+        return Template.instance().pagination;
+    },
+    documents: function () {
+        return Template.instance().pagination.getPage();
+    },
+    // optional helper used to return a callback that should be executed before changing the page
+    clickEvent: function() {
+        return function(e, templateInstance, clickedPage) {
+            e.preventDefault();
+            console.log('Changing page from ', templateInstance.data.pagination.currentPage(), ' to ', clickedPage);
+        };
+    },
+    query() {
+        return Template.instance().searchQuery.get();
     }
+
 });
 
 Template.solution_form.events({
@@ -110,7 +153,7 @@ Template.solution_form.events({
     },
     "keyup .tagfilter":function(e,template){
         //var letter_pressed = String.fromCharCode(e.keyCode);
-        console.log(template.find("#tagfilter").value);
+        //console.log(template.find("#tagfilter").value);
         Session.set('tagfilter',template.find("#tagfilter").value);
 
     },
