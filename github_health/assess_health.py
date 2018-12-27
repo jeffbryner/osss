@@ -136,8 +136,8 @@ def main(config):
         entry['last_health_check'] = datetime.utcnow().isoformat()
         solutions.replace_one({'_id': entry['_id']},entry)
 
-    # remove any junk entries (no url)
-    solutions.delete_many({"url":{'$in': [None, '']}})
+    # remove any junk entries (no url, and we've checked their health previously)
+    solutions.delete_many({"$and":[ {"url":{'$in': [None, '']}}, {"last_health_check":{"$exists":True}} ]})
 
     # todo: update the description if it's changed.
 
