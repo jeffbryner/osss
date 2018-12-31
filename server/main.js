@@ -13,17 +13,16 @@ Meteor.startup(() => {
     // pivot table uses inline styles
     //BrowserPolicy.content.disallowInlineStyles();
     BrowserPolicy.framing.disallow();
-    //update tags if missing:
-    console.log("checking the tags");
-    console.log('tags: ' + tags.find().count());
-    if (tags.find().count() == 0) {
-        console.log("updating the tags collection");
-        var tagsFile = Assets.getText("tags.txt");
-        var tagsObject = tagsFile.split("\n");
-        tagsObject.forEach(function (tagItem) {
-            tags.insert({ tag: tagItem });
-        });
-    }
+
+    //refresh tags
+    console.log("refreshing the tags");
+    tags.remove({});
+    var tagsFile = Assets.getText("tags.txt");
+    var tagsObject = tagsFile.split("\n");
+    tagsObject.forEach(function (tagItem) {
+        tags.insert({ tag: tagItem });
+    });
+
 });
 
 WebApp.rawConnectHandlers.use(function(req, res, next) {
