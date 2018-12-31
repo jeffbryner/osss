@@ -11,10 +11,12 @@
     "@babel/runtime": "^7.2.0",
     "@octokit/rest": "^15.18.1",
     "d3": "^3.5.17",
+    "dompurify": "^1.0.8",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
     "meteor-node-stubs": "^0.4.1",
-    "pivottable": "^2.23.0"
+    "pivottable": "^2.23.0",
+    "validator": "^10.10.0"
   },
   "meteor": {
     "mainModule": {
