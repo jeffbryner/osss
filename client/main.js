@@ -20,7 +20,9 @@ Router.route('/', function () {
 Router.route('/solutions/:_id', function () {
     // grab the data for the form
     var solution = solutions.findOne({_id: this.params._id});
+    this.wait(Meteor.subscribe('solution', this.params._id));
     this.render('solution_form', {data: solution});
+
 });
 
 Router.route('/pivot', function () {
