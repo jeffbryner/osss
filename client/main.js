@@ -154,7 +154,7 @@ Template.solution_form.events({
         });
 
         solutions.update({ _id: template.data._id}, {$set: this_solution });
-    } , 500),
+    } , 750),
 
     "dragover .tags": function(e){
         e.preventDefault();   //allow the drag
