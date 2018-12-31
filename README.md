@@ -6,7 +6,7 @@ and does rudimentary health ratings for projects based on github stats.
 
 # Where ?
 Visit:
-https://catalog.security.allizom.org/
+https://catalog.security.mozilla.org/
 
 and add or edit your favorite open source information security project/tool. Ideally, it's one
 that can be used in an enterprise defensive setting as a significant contribution to an organizations
