@@ -36,7 +36,7 @@
 
                 </tbody>
             </table>
-            {{> defaultBootstrapPaginator pagination=templatePagination limit=5 containerClass="text-center" onClick=clickEvent}}
+            {{> defaultBootstrapPaginator pagination=templatePagination limit=5 containerClass="text-center"}}
         </div>
         {{else}}
             {{>loading}}
@@ -47,8 +47,12 @@
 <template name="each_solution">
     <tr class="tooltip-wrapper info-row" data-toggle="tooltip">
         <td><button class="btn btn-outline-secondary solution-edit" data-solutionid={{_id}}>edit</button></td>
-        <td>{{{name}}}</td>
-        <td>{{description}}</td>
+        {{#if isURL url }}
+            <td><a href={{url}} target="_blank">{{name}}</a></td>
+        {{else}}
+            <td>{{{sanitize name}}}</td>
+        {{/if}}
+        <td>{{{sanitize description}}}</td>
         <td>{{stringify tags}}</td>
         <td class="{{healthColor health}}">{{health}}</td>
         <!-- <td><button class="btn btn-xs btn-outline-danger solution-delete" data-solutionid={{_id}}>delete</button></td> -->

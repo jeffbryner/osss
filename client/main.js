@@ -3,12 +3,18 @@ import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import '/imports/collections.js';
 import 'meteor/alexwine:bootstrap-4';
+import validator from 'validator';
+import DOMPurify from 'dompurify';
 import './layout.html';
 import './main.html';
 import './tags.html';
 import './pivot.html';
 import './pivot.js';
 
+Meteor.startup(() => {
+    DOMPurify.setConfig({ALLOWED_TAGS: [],
+        SAFE_FOR_TEMPLATES: true});
+});
 Router.configure({
     layoutTemplate: 'layout'
 });
@@ -49,6 +55,14 @@ UI.registerHelper('healthColor',function(obj){
         return 'bg-danger'
     }
 
+});
+
+UI.registerHelper('sanitize',function(obj){
+    return DOMPurify.sanitize(obj);
+})
+
+UI.registerHelper('isURL',function(obj){
+    return validator.isURL(obj);
 });
 
 Template.solutions.onCreated(function(){
@@ -131,13 +145,14 @@ Template.solution_form.events({
         this_solution=models.solution();
         // we don't rate the health
         delete this_solution.health;
-        this_solution.name=template.find("#name").value;
-        this_solution.description=template.find("#description").value;
-        this_solution.url=template.find("#url").value;
+        this_solution.name=DOMPurify.sanitize(template.find("#name").value);
+        this_solution.description=DOMPurify.sanitize(template.find("#description").value);
+        this_solution.url=DOMPurify.sanitize(template.find("#url").value);
         var tags = _.pluck($('.form-control .tag'),'childNodes')
         tags.forEach(function(t){
             this_solution.tags.push(t[0].data);
         });
+
         solutions.update({ _id: template.data._id}, {$set: this_solution });
     } , 500),
 
