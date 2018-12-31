@@ -106,7 +106,6 @@ Template.solutions.events({
       }
 });
 
-//return all records
 Template.solutions.helpers({
     isReady: function () {
         return Template.instance().pagination.ready();
@@ -117,13 +116,6 @@ Template.solutions.helpers({
     documents: function () {
         return Template.instance().pagination.getPage();
     },
-    // optional helper used to return a callback that should be executed before changing the page
-    clickEvent: function() {
-        return function(e, templateInstance, clickedPage) {
-            e.preventDefault();
-            console.log('Changing page from ', templateInstance.data.pagination.currentPage(), ' to ', clickedPage);
-        };
-    },
     query() {
         return Template.instance().searchQuery.get();
     }
@@ -131,7 +123,6 @@ Template.solutions.helpers({
 });
 
 Template.solution_form.events({
-    // input isn't enough since toolbar changes don't trigger
     'input .solution_form': _.debounce(function(e,template){
         //console.log('editor debounce input', template);
         //window.tmpl=template;
@@ -186,6 +177,13 @@ Template.tags.helpers({
 Template.tags.events({
     'dragstart .tag': function(e){
         e.originalEvent.dataTransfer.setData("text/plain",this.tag);
+    },
+    'dblclick .tag': function(e){
+        if ( Session.get('solutionID') ){
+            solutions.update({ _id: Session.get('solutionID')},
+             {$addToSet: {tags:this.tag}
+            });
+        }
     },
     'load': function(e, template){
         template.find("#tagfilter").value=Session.get('tagfilter');
