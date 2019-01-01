@@ -7,9 +7,8 @@ services:
     links:
       - mongo
     restart: always
-    environment:
-      - ROOT_URL=http://localhost
-      - MONGO_URL=mongodb://mongo:27017/meteor
+    env_file:
+      - meteor.env
     depends_on:
       - mongo
 
@@ -18,6 +17,8 @@ services:
     command: mongod --storageEngine=wiredTiger
     volumes:
       - mongodb:/data/db
+    ports:
+      - "27017:27017"
   python:
     image: python:3
     command: bash /opt/github_health/startup.sh
