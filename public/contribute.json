@@ -1,0 +1,28 @@
+{
+    "name": "Open Source Security Solutions Catalog",
+    "description": "An experiement to catalog open source information security solutions and rate their health via github stats.",
+    "repository": {
+        "url": "https://github.com/jeffbryner/osss",
+        "license": "MPL2"
+    },
+    "participate": {
+        "home": "https://github.com/jeffbryner/osss",
+        "docs": "https://github.com/jeffbryner/osss/readme.md",
+        "irc": "irc://irc.mozilla.org/#infosec",
+        "irc-contacts": [
+            "jeff"
+        ]
+    },
+    "bugs": {
+        "list": "https://github.com/jeffbryner/osss/issues",
+        "report": "https://github.com/jeffbryner/osss/issues"
+    },
+    "urls": {
+        "prod": "http://catalog.security.mozilla.org/",
+        "stage": "http://catalog.security.allizom.org/"
+    },
+    "keywords": [
+        "python",
+        "meteor"
+       ]
+}
